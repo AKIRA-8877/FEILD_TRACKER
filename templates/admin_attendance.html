@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-4">Attendance Records</h2>
+
+<form method="GET" class="mb-4 w-50">
+    <div class="input-group">
+        <span class="input-group-text">Filter by Date</span>
+        <input type="date" name="date" class="form-control" value="{{ filter_date }}">
+        <button class="btn btn-primary" type="submit">Filter</button>
+        {% if filter_date %}
+            <a href="{{ url_for('admin_attendance') }}" class="btn btn-outline-secondary">Clear</a>
+        {% endif %}
+    </div>
+</form>
+
+<div class="table-responsive bg-white rounded shadow-sm p-3">
+    <table class="table table-hover align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Employee</th>
+                <th>Date</th>
+                <th>Check In</th>
+                <th>Check Out</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in records %}
+            <tr>
+                <td>{{ row.employee.name }}</td>
+                <td>{{ row.date.strftime('%Y-%m-%d') }}</td>
+                <td>{{ row.check_in.strftime('%I:%M %p') if row.check_in else '-' }}</td>
+                <td>{{ row.check_out.strftime('%I:%M %p') if row.check_out else '-' }}</td>
+                <td><span class="badge bg-primary">{{ row.status }}</span></td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5" class="text-center">No records found.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

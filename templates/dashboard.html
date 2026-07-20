@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-4">Dashboard</h2>
+
+<div class="row g-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white text-center h-100">
+            <div class="card-body d-flex flex-column justify-content-center">
+                <h5 class="card-title">Total Visits</h5>
+                <h2 class="display-4">{{ total }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success text-white text-center h-100">
+            <div class="card-body d-flex flex-column justify-content-center">
+                <h5 class="card-title">Completed Visits</h5>
+                <h2 class="display-4">{{ completed }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-dark text-center h-100">
+            <div class="card-body d-flex flex-column justify-content-center">
+                <h5 class="card-title">Pending Visits</h5>
+                <h2 class="display-4">{{ pending }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-info text-white text-center h-100">
+            <div class="card-body d-flex flex-column justify-content-center">
+                <h5 class="card-title">Today's Attendance</h5>
+                <h4>{{ attendance_status }}</h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-5">
+    <h4>Quick Actions</h4>
+    <div class="d-flex gap-3 mt-3">
+        <a href="{{ url_for('attendance') }}" class="btn btn-outline-primary"><i class="bi bi-clock"></i> Manage Attendance</a>
+        <a href="{{ url_for('visits') }}" class="btn btn-outline-primary"><i class="bi bi-plus-circle"></i> Log New Visit</a>
+    </div>
+</div>
+{% endblock %}

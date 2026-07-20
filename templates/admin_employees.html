@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-4">Employee Directory</h2>
+
+<form method="GET" class="mb-4">
+    <div class="input-group">
+        <input type="text" name="search" class="form-control" placeholder="Search by name..." value="{{ search }}">
+        <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i> Search</button>
+        {% if search %}
+            <a href="{{ url_for('admin_employees') }}" class="btn btn-outline-secondary">Clear</a>
+        {% endif %}
+    </div>
+</form>
+
+<div class="table-responsive bg-white rounded shadow-sm p-3">
+    <table class="table table-hover align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for emp in employees %}
+            <tr>
+                <td>{{ emp.id }}</td>
+                <td><strong>{{ emp.name }}</strong></td>
+                <td>{{ emp.email }}</td>
+                <td><span class="badge bg-secondary">{{ emp.role }}</span></td>
+            </tr>
+            {% else %}
+            <tr><td colspan="4" class="text-center">No employees found.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

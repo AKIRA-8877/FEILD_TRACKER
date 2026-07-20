@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-4">All Client Visits</h2>
+
+<form method="GET" class="mb-4">
+    <div class="row g-2">
+        <div class="col-md-4">
+            <input type="text" name="search" class="form-control" placeholder="Search by employee name..." value="{{ search }}">
+        </div>
+        <div class="col-md-4">
+            <input type="date" name="date" class="form-control" value="{{ filter_date }}">
+        </div>
+        <div class="col-md-4">
+            <button class="btn btn-primary" type="submit">Filter & Search</button>
+            {% if search or filter_date %}
+                <a href="{{ url_for('admin_visits') }}" class="btn btn-outline-secondary">Clear</a>
+            {% endif %}
+        </div>
+    </div>
+</form>
+
+<div class="table-responsive bg-white rounded shadow-sm p-3">
+    <table class="table table-hover align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Employee</th>
+                <th>Date</th>
+                <th>Client / Company</th>
+                <th>Location</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for visit in visits %}
+            <tr>
+                <td><strong>{{ visit.employee.name }}</strong></td>
+                <td>{{ visit.visit_date.strftime('%Y-%m-%d') }}</td>
+                <td>{{ visit.client_name }}<br><small class="text-muted">{{ visit.company_name }}</small></td>
+                <td>{{ visit.location }}</td>
+                <td>
+                    {% if visit.status == 'Completed' %}
+                    <span class="badge bg-success">Completed</span>
+                    {% elif visit.status == 'Cancelled' %}
+                    <span class="badge bg-danger">Cancelled</span>
+                    {% else %}
+                    <span class="badge bg-warning text-dark">Pending</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ url_for('edit_visit', id=visit.id) }}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i></a>
+                    <form method="POST" action="{{ url_for('delete_visit', id=visit.id) }}" class="d-inline" onsubmit="return confirm('Delete this record permanently?');">
+                        <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="6" class="text-center">No visits found.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
